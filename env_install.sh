@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 
 print_nicely () {
-    echo ""
-    printf "$1" "$2"
-    echo ""
+    printf "\n$1\n" "$2"
 }
 
 #print_nicely "Detected OS Type [Linux/Bash on Windows 10/Android:linux-gnu, MacOS:darwin*, iOS:darwin9]: %s", $OSTYPE
@@ -14,14 +12,17 @@ if [[ "$var" == "Python"* ]]; then
     print_nicely "Installed Python: %s" "$var"
 else 
     print_nicely "Installing Python to the system" ""
-    if ["$OSTYPE" == linux-gnu]; then
+    if [ "$OSTYPE" == "linux-gnu" ]; then
         apt-get install python3.15
-    elif ["$OSTYPE" == darwin9]; then 
+    elif [ "$OSTYPE" == "darwin9" ]; then 
         echo "Not possible to install Python on iPhone"
-    elif ["$OSTYPE" ==  darwin*]; then
+    elif [ "$OSTYPE" == "darwin*" ]; then
         brew install python
-    print_nicely "Installed Python: %s" "$var"
+    else 
+        echo "OS not supported for auto-install"
     fi
+    var=`python3 -V`
+    print_nicely "Installed Python: %s" "$var"
 fi
 
 var2=`pip -V`
@@ -29,7 +30,9 @@ if [[ "$var2" == "pip"* ]]; then
     print_nicely "Installed pip: %s" "$var2"
 else 
     print_nicely "Installing pip to the system" ""
-    python -m pip install --upgrade pip
+    python3 -m ensurepip --upgrade
+    python3 -m pip install --upgrade pip
+    var2=`pip -V`
     print_nicely "Installed pip: %s" "$var2"
     fi
 
@@ -38,6 +41,11 @@ if [[ "$var3" == "/"* ]]; then
     print_nicely "Installed jupyter via path: %s" "$var3"
 else 
     print_nicely "Installing jupyter to the system" ""
-    pip install jupyter
+    pip3 install jupyter
+    var3=`which jupyter`
     print_nicely "Installed jupyter to path: %s" "$var3"
+    fi
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    brew doctor
     fi
