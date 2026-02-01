@@ -32,4 +32,12 @@ else
     python -m pip install --upgrade pip
     print_nicely "Installed pip: %s" "$var2"
     fi
-fi
+
+var3=`which jupyter`
+if [[ "$var3" == "/"* ]]; then
+    print_nicely "Installed jupyter via path: %s" "$var3"
+else 
+    print_nicely "Installing jupyter to the system" ""
+    pip install jupyter
+    print_nicely "Installed jupyter to path: %s" "$var3"
+    fi
