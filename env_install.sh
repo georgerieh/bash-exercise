@@ -24,4 +24,12 @@ else
     fi
 fi
 
-var2=`pip3 -V`
+var2=`pip -V`
+if [[ "$var2" == "pip"* ]]; then
+    print_nicely "Installed pip: %s" "$var2"
+else 
+    print_nicely "Installing pip to the system" ""
+    python -m pip install --upgrade pip
+    print_nicely "Installed pip: %s" "$var2"
+    fi
+fi
