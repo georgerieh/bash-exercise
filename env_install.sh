@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+print_nicely () {
+    echo ""
+    printf "$1" "$2"
+    echo ""
+}
+
+#print_nicely "Detected OS Type [Linux/Bash on Windows 10/Android:linux-gnu, MacOS:darwin*, iOS:darwin9]: %s", $OSTYPE
+
+var=`python3 -V`
+
+if [[ "$var" == "Python"* ]]; then
+    print_nicely "Installed Python: %s" "$var"
+else 
+    print_nicely "Installing Python to the system" ""
+    if ["$OSTYPE" == linux-gnu]; then
+        apt-get install python3.15
+    elif ["$OSTYPE" == darwin9]; then 
+        echo "Not possible to install Python on iPhone"
+    elif ["$OSTYPE" ==  darwin*]; then
+        brew install python
+    print_nicely "Installed Python: %s" "$var"
+    fi
+fi
+
+var2=`pip3 -V`
